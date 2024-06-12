@@ -13,7 +13,14 @@
     <label for="nome"> Nome </label>
     <input id="nome" formControlName="nome" />
     <label for="telefone"> Telefone </label>
-    <input id="telefone" formControlName="telefone" />
+    <input
+      id="phone"
+      type="text"
+      placeholder="62900000000"
+      formControlName="phone"
+      maxlength="11"
+      (input)="checkMaxLength($event)"
+    />
     <button type="submit" [disabled]="!newsletterForm.valid || loading">
       Se inscreva
     </button>

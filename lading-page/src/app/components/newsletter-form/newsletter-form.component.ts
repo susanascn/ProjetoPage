@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NewsletterService } from '../../services/newsletter.service';
@@ -18,16 +18,28 @@ export class NewsletterComponent {
   constructor(private fb: FormBuilder, private newsletterService: NewsletterService) {
     this.newsletterForm = this.fb.group({
       nome: ['', Validators.required],
-      telefone: ['', Validators.required]
+      telefone: ['', [Validators.required, Validators.maxLength(11), this.phoneValidator]]
     });
+  }
+
+  checkMaxLength(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.value.length > 11) {
+      input.value = input.value.slice(0, 11);
+    }
+  }
+
+  phoneValidator(control: AbstractControl): ValidationErrors | null {
+    const valid = /^\d{0,11}$/.test(control.value);
+    return valid ? null : { invalidPhone: true };
   }
 
   onSubmit(): void {
     if (this.newsletterForm.valid) {
-      const formData = this.newsletterForm.value;
-      console.log('Dados enviados:', formData);
+      const nome = this.newsletterForm.get('nome')?.value;
+      const telefone = this.newsletterForm.get('telefone')?.value;
       this.loading = true;
-      this.newsletterService.sendData(formData).subscribe(
+      this.newsletterService.sendData(nome, telefone).subscribe(
         response => {
           console.log('Formulário enviado com sucesso', response);
           this.loading = false;
@@ -38,5 +50,5 @@ export class NewsletterComponent {
         }
       );
     }
-  }  
+  }
 }
