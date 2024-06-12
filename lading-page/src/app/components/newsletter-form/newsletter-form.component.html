@@ -1,0 +1,22 @@
+<section class="form-section">
+  <div class="text">
+    <h3>
+      Precisa de Assistência Jurídica? <br />
+      Preencha o Formulário e <strong>Receba um Contato Imediato!</strong>
+    </h3>
+    <p>
+      Estamos prontos para ajudar com suas questões legais. Deixe seus dados e
+      entraremos em contato o mais rápido possível.
+    </p>
+  </div>
+  <form [formGroup]="newsletterForm" (ngSubmit)="onSubmit()">
+    <label for="nome"> Nome </label>
+    <input id="nome" formControlName="nome" />
+    <label for="telefone"> Telefone </label>
+    <input id="telefone" formControlName="telefone" />
+    <button type="submit" [disabled]="!newsletterForm.valid || loading">
+      Se inscreva
+    </button>
+    <div *ngIf="loading">Enviando...</div>
+  </form>
+</section>

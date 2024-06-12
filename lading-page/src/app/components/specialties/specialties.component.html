@@ -1,0 +1,12 @@
+<div class="specialties-container">
+  <div class="title">
+    <h2>Especialidades</h2>
+  </div>
+  <div class="specialties-wrapper">
+    <div class="specialty" *ngFor="let specialty of specialties">
+      <img [src]="specialty.image" alt="{{ specialty.name }}" class="specialty-image">
+      <h3 class="specialty-name">{{ specialty.name }}</h3>
+      <p class="specialty-description">{{ specialty.description }}</p>
+    </div>
+  </div>
+</div>
